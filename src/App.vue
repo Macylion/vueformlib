@@ -10,6 +10,7 @@
 		<button @click="testReset">Reset</button>
 		<button @click="testAdd">Add</button>
 		<button @click="testAddForm">AddForm</button>
+		<button @click="testGet2ndInputFromArray">Get2ndInputFromArray</button>
 
 		<hr />
 		<form action="#" v-formGroup="formGroup">
@@ -25,7 +26,8 @@
 			<hr />
 			<div v-arrayControl="formGroup.get('array1')">
 				<div v-for="(control, index) in formGroup.get('array1').getAll()" :key="index">
-					<input type="text" v-inputControl="control">
+					<input type="text" v-inputControl="control"> 
+					<span @click="formGroup.get('array1').remove(index)">[remove]</span>
 					{{ control.getError() }}
 				</div>
 			</div>
@@ -88,7 +90,7 @@ export default {
 				name3: new InputControl('2', [
 					new NumberValidator(''),
 				]),
-				name4: new InputControl('5', [
+				name4: new InputControl('dsds5', [
 					new Is5Validator()
 				]),
 				array1: new ArrayControl(),
@@ -102,8 +104,12 @@ export default {
 		})
 
 		this.testAdd();
+		this.testAddForm();
 	},
 	methods: {
+		testGet2ndInputFromArray() {
+			console.log(this.formGroup.get('array1').get(2));
+		},
 		testAdd() {
 			this.formGroup.get('array1').add(new InputControl('test@test.te', [
 				new RequiredValidator(),
@@ -112,10 +118,10 @@ export default {
 		},
 		testAddForm() {
 			this.formGroup.get('arrayForm').add(new FormGroup({
-				nameA: new InputControl('', [
+				nameA: new InputControl('1', [
 					new RequiredValidator(),
 				]),
-				nameB: new InputControl('', [
+				nameB: new InputControl('2', [
 					new RequiredValidator()
 				])
 			}))
@@ -125,6 +131,7 @@ export default {
 		},
 		test2() {
 			this.formGroup.get('name1').setValue('232323')
+			this.formGroup.get('name1').validate()
 		},
 		testValidate() {
 			console.log('Validation')

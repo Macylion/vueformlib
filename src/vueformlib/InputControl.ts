@@ -45,7 +45,7 @@ export default class InputControl {
 		return this.element;
 	}
 
-	setElement(el: HTMLInputElement) {
+	setElement(el: HTMLInputElement | null) {
 		this.element = el;
 	}
 
@@ -95,7 +95,8 @@ export default class InputControl {
 	setValue(value: string) {
 		this.value = value;
 		this.emitValueChange(this.value);
-		if(this.errorMessage.length > 0)
+		//this.element?.value = this.value;
+		if(this.isTouched())
 			this.validate();
 	}
 

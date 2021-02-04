@@ -27,6 +27,21 @@ export default class ArrayControl extends InputControl{
 		return this.inputControls;
 	}
 
+	get(key: number): InputControl | null{
+		for (let i = 0; i < this.inputControls.length; i++) {
+			const element = this.inputControls[i];
+			if(i === key)
+				return element;
+		}
+		return null;
+	}
+
+	remove(key: number) {
+		this.inputControls[key].setEventTarget(null);
+		this.inputControls[key].setElement(null);
+		this.inputControls.splice(key, 1);
+	}
+
 	getValue(): string | Array<{key: number; value: string}> {
 		const values: Array<{key: number; value: string}> = [];
 		for (let i = 0; i < this.inputControls.length; i++) {
