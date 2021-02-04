@@ -9,6 +9,15 @@ export default class ArrayControl extends InputControl{
 		this.inputControls = [];
 	}
 
+	isValid(): boolean {
+		for (let i = 0; i < this.inputControls.length; i++) {
+			const element = this.inputControls[i];
+			if(!element.isValid())
+				return false;
+		}
+		return true;
+	}
+
 	add(inputControl: InputControl) {
 		const inp = inputControl.setEventTarget(this.eventTarget);
 		this.inputControls.push(inp);

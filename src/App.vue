@@ -65,10 +65,10 @@ export default {
 	data() {
 		return {
 			formGroup: new FormGroup({
-				name1: new InputControl('mail', [
+				name1: new InputControl('mail@mail.ma', [
 					new EmailValidator('Email jest zly'),
 				]),
-				name2: new InputControl('', [
+				name2: new InputControl('12345a', [
 					new MaxValidator(8),
 					new MinValidator(4),
 					new RequiredValidator(),
@@ -76,7 +76,7 @@ export default {
 				name3: new InputControl('2', [
 					new NumberValidator(''),
 				]),
-				name4: new InputControl('', [
+				name4: new InputControl('5', [
 					new Is5Validator()
 				]),
 				array1: new ArrayControl()
@@ -88,12 +88,11 @@ export default {
 			console.log(e.detail)
 		})
 
-		//
 		this.testAdd();
 	},
 	methods: {
 		testAdd() {
-			this.formGroup.get('array1').add(new InputControl('', [
+			this.formGroup.get('array1').add(new InputControl('test@test.te', [
 				new RequiredValidator(),
 				new EmailValidator(),
 			]))
