@@ -2898,7 +2898,7 @@ var FormGroup_FormGroup = /*#__PURE__*/function () {
       for (var key in this.inputControls) {
         if (Object.prototype.hasOwnProperty.call(this.inputControls, key)) {
           var control = this.inputControls[key];
-          if (!control.isValid()) return false;
+          if (!control.validate()) return false;
         }
       }
 
@@ -2911,7 +2911,7 @@ var FormGroup_FormGroup = /*#__PURE__*/function () {
     }
   }, {
     key: "getAllValues",
-    value: function getAllValues() {
+    value: function getValue() {
       var values = {};
 
       for (var key in this.inputControls) {
@@ -2926,7 +2926,7 @@ var FormGroup_FormGroup = /*#__PURE__*/function () {
       var _this$element;
 
       (_this$element = this.element) === null || _this$element === void 0 ? void 0 : _this$element.dispatchEvent(new CustomEvent('valueChange', {
-        detail: this.getAllValues()
+        detail: this.getValue()
       }));
     }
   }, {
@@ -2995,7 +2995,7 @@ var InputControl_InputControl = /*#__PURE__*/function () {
     }
   }, {
     key: "isValid",
-    value: function isValid() {
+    value: function validate() {
       this.errorMessage = "";
 
       for (var i = 0; i < this.validators.length; i++) {

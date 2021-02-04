@@ -9,6 +9,8 @@
 		<button @click="testFormValid">FormValid</button>
 		<button @click="testReset">Reset</button>
 		<button @click="testAdd">Add</button>
+		<button @click="testAddForm">AddForm</button>
+
 		<hr />
 		<form action="#" v-formGroup="formGroup">
 			<input type="text" v-inputControl="formGroup.get('name1')">
@@ -19,6 +21,7 @@
 			{{ formGroup.get('name3').getError() }}
 			<input type="text" v-inputControl="formGroup.get('name4')">
 			{{ formGroup.get('name4').getError() }}
+
 			<hr />
 			<div v-arrayControl="formGroup.get('array1')">
 				<div v-for="(control, index) in formGroup.get('array1').getAll()" :key="index">
@@ -26,7 +29,16 @@
 					{{ control.getError() }}
 				</div>
 			</div>
+
 			<hr />
+			<div v-arrayControl="formGroup.get('arrayForm')">
+				<div v-for="(group, index) in formGroup.get('arrayForm').getAll()" :key="index">
+					<input type="text" v-inputControl="group.get('nameA')">
+					{{ group.get('nameA').getError() }}
+					<input type="text" v-inputControl="group.get('nameB')">
+					{{ group.get('nameB').getError() }}
+				</div>
+			</div>
 		</form>
 	</div>
 </template>
@@ -79,7 +91,8 @@ export default {
 				name4: new InputControl('5', [
 					new Is5Validator()
 				]),
-				array1: new ArrayControl()
+				array1: new ArrayControl(),
+				arrayForm: new ArrayControl(),
 			}),
 		}
 	},
@@ -97,6 +110,16 @@ export default {
 				new EmailValidator(),
 			]))
 		},
+		testAddForm() {
+			this.formGroup.get('arrayForm').add(new FormGroup({
+				nameA: new InputControl('', [
+					new RequiredValidator(),
+				]),
+				nameB: new InputControl('', [
+					new RequiredValidator()
+				])
+			}))
+		},
 		test() {
 			console.log('test')
 		},
@@ -105,10 +128,10 @@ export default {
 		},
 		testValidate() {
 			console.log('Validation')
-			console.log(1, this.formGroup.get('name1').isValid())
-			console.log(2, this.formGroup.get('name2').isValid())
-			console.log(3, this.formGroup.get('name3').isValid())
-			console.log(4, this.formGroup.get('name4').isValid())
+			console.log(1, this.formGroup.get('name1').validate())
+			console.log(2, this.formGroup.get('name2').validate())
+			console.log(3, this.formGroup.get('name3').validate())
+			console.log(4, this.formGroup.get('name4').validate())
 		},
 		testDirty() {
 			console.log('Dirty')

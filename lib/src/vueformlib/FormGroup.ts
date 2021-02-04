@@ -22,7 +22,7 @@ export default class FormGroup {
 		for (const key in this.inputControls) {
 			if (Object.prototype.hasOwnProperty.call(this.inputControls, key)) {
 				const control = this.inputControls[key];
-				if(!control.isValid())
+				if(!control.validate())
 					return false;
 			}
 		}
@@ -33,7 +33,7 @@ export default class FormGroup {
 		return this.inputControls[key];
 	}
 
-	getAllValues(): { [key: string]: string } {
+	getValue(): { [key: string]: string } {
 		const values: { [key: string]: string } = {};
 		for (const key in this.inputControls)
 			if (Object.prototype.hasOwnProperty.call(this.inputControls, key))
@@ -43,7 +43,7 @@ export default class FormGroup {
 
 	emitValueChange(value: string) {
 		this.element?.dispatchEvent(new CustomEvent('valueChange', {
-			detail: this.getAllValues(),
+			detail: this.getValue(),
 		}));
 	}
 

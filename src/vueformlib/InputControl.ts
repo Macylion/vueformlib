@@ -25,7 +25,7 @@ export default class InputControl {
 	reset() {
 		this.value = this.defaultValue;
 		this.touched = false;
-		this.isValid();
+		this.validate();
 		this.errorMessage = "";
 	}
 
@@ -53,7 +53,7 @@ export default class InputControl {
 		this.element?.addEventListener(eventName, callback);
 	}
 
-	isValid(): boolean {
+	validate(): boolean {
 		this.errorMessage = "";
 		for (let i = 0; i < this.validators.length; i++){
 			const validator = this.validators[i];
@@ -66,7 +66,7 @@ export default class InputControl {
 		return true;
 	}
 
-	getValue(): string  | Array<{key: number; value: string}>{
+	getValue(): string  | Array<{key: number; value: string}> | { [key: string]: string  | Array<{key: number; value: string}>}{
 		// this.emitValueChange(this.value);
 		return this.value;
 	}
@@ -89,14 +89,14 @@ export default class InputControl {
 
 	blur() {
 		this.touched = true;
-		this.isValid();
+		this.validate();
 	}
 
 	setValue(value: string) {
 		this.value = value;
 		this.emitValueChange(this.value);
 		if(this.errorMessage.length > 0)
-			this.isValid();
+			this.validate();
 	}
 
 	emitValueChange(value: string) {

@@ -43,7 +43,7 @@ export default class InputControl {
 		this.element?.addEventListener(eventName, callback);
 	}
 
-	isValid(): boolean {
+	validate(): boolean {
 		this.errorMessage = "";
 		for (let i = 0; i < this.validators.length; i++){
 			const validator = this.validators[i];

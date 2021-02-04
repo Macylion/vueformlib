@@ -9,10 +9,10 @@ export default class ArrayControl extends InputControl{
 		this.inputControls = [];
 	}
 
-	isValid(): boolean {
+	validate(): boolean {
 		for (let i = 0; i < this.inputControls.length; i++) {
 			const element = this.inputControls[i];
-			if(!element.isValid())
+			if(!element.validate())
 				return false;
 		}
 		return true;

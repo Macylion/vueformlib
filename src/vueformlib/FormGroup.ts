@@ -1,11 +1,12 @@
 import InputControl from './InputControl';
-export default class FormGroup {
+export default class FormGroup extends InputControl{
 	
-	private inputControls: { [key: string]: InputControl };
+	private inputControls: { [key: string]: InputControl | FormGroup };
 
-	private element: HTMLInputElement | null;
+	//private element: HTMLInputElement | null;
 
-	constructor(inputControls: {  [key: string]: InputControl }){
+	constructor(inputControls: { [key: string]: InputControl | FormGroup }){
+		super('', []);
 		this.inputControls = inputControls;
 		this.element = null;
 	}
@@ -22,7 +23,7 @@ export default class FormGroup {
 		for (const key in this.inputControls) {
 			if (Object.prototype.hasOwnProperty.call(this.inputControls, key)) {
 				const control = this.inputControls[key];
-				if(!control.isValid())
+				if(!control.validate())
 					return false;
 			}
 		}
@@ -33,17 +34,18 @@ export default class FormGroup {
 		return this.inputControls[key];
 	}
 
-	getAllValues(): { [key: string]: string  | Array<{key: number; value: string}>} {
-		const values: { [key: string]: string  | Array<{key: number; value: string}>} = {};
+	getValue(): any {
+		const values: any  = {};
 		for (const key in this.inputControls)
 			if (Object.prototype.hasOwnProperty.call(this.inputControls, key))
 				values[key] = this.inputControls[key].getValue();
 		return values;
 	}
 
+
 	emitValueChange(value: string) {
 		this.element?.dispatchEvent(new CustomEvent('valueChange', {
-			detail: this.getAllValues(),
+			detail: this.getValue(),
 		}));
 	}
 
