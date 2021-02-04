@@ -1,5 +1,15 @@
 <template>
 	<div>
+		<button @click="test">test</button>
+		<button @click="test2">test</button>
+		<button @click="testValidate">Validate</button>
+		<button @click="testDirty">Dirty</button>
+		<button @click="testTouched">Touched</button>
+		<button @click="testPristine">Pristine</button>
+		<button @click="testFormValid">FormValid</button>
+		<button @click="testReset">Reset</button>
+		<button @click="testAdd">Add</button>
+		<hr />
 		<form action="#" v-formGroup="formGroup">
 			<input type="text" v-inputControl="formGroup.get('name1')">
 			{{ formGroup.get('name1').getError() }}
@@ -9,27 +19,27 @@
 			{{ formGroup.get('name3').getError() }}
 			<input type="text" v-inputControl="formGroup.get('name4')">
 			{{ formGroup.get('name4').getError() }}
+			<hr />
+			<div v-arrayControl="formGroup.get('array1')">
+				<div v-for="(control, index) in formGroup.get('array1').getAll()" :key="index">
+					<input type="text" v-inputControl="control">
+					{{ control.getError() }}
+				</div>
+			</div>
+			<hr />
 		</form>
-		<button @click="test()">test</button>
-		<button @click="test2()">test</button>
-		<button @click="testValidate()">Validate</button>
-		<button @click="testDirty()">Dirty</button>
-		<button @click="testTouched()">Touched</button>
-		<button @click="testPristine()">Pristine</button>
-		<button @click="testFormValid()">FormValid</button>
-		<button @click="testReset()">Reset</button>
 	</div>
 </template>
 
 <script>
-import InputControl from './vueformlib/InputControl'
-import FormGroup from './vueformlib/FormGroup'
+import InputControl from './vueformlib/InputControl';
+import FormGroup from './vueformlib/FormGroup';
+import ArrayControl from './vueformlib/ArrayControl';
 import EmailValidator from './vueformlib/validators/EmailValidator';
 import MaxValidator from './vueformlib/validators/MaxValidator';
 import MinValidator from './vueformlib/validators/MinValidator';
 import NumberValidator from './vueformlib/validators/NumberValidator';
 import RequiredValidator from './vueformlib/validators/RequiredValidator';
-
 
 class Is5Validator{
 	errorMessage;
@@ -68,7 +78,8 @@ export default {
 				]),
 				name4: new InputControl('', [
 					new Is5Validator()
-				])
+				]),
+				array1: new ArrayControl()
 			}),
 		}
 	},
@@ -76,8 +87,17 @@ export default {
 		this.formGroup.on('valueChange', function(e) {
 			console.log(e.detail)
 		})
+
+		//
+		this.testAdd();
 	},
 	methods: {
+		testAdd() {
+			this.formGroup.get('array1').add(new InputControl('', [
+				new RequiredValidator(),
+				new EmailValidator(),
+			]))
+		},
 		test() {
 			console.log('test')
 		},

@@ -2,15 +2,15 @@ import FormGroup from './FormGroup';
 import IValidator from './validators/IValidator';
 export default class InputControl {
 
-	private defaultValue: string;
-	private value: string;
-	private validators: Array<IValidator>;
+	protected defaultValue: string;
+	protected value: string;
+	protected validators: Array<IValidator>;
 
-	private touched: boolean;
-	private errorMessage: string;
+	protected touched: boolean;
+	protected errorMessage: string;
 
-	private element: HTMLInputElement | null;
-	private eventTarget: FormGroup | null;
+	protected element: HTMLInputElement | null;
+	protected eventTarget: FormGroup | null;
 
 	constructor(value: string, validators: Array<IValidator>){
 		this.defaultValue = value;
@@ -33,11 +33,12 @@ export default class InputControl {
 		return this.eventTarget;
 	}
 
-	setEventTarget(eventTarget: FormGroup | null){
+	setEventTarget(eventTarget: FormGroup | null): InputControl{
 		this.eventTarget = eventTarget;
 		this.element?.addEventListener('keyup', () => {
 			this.eventTarget?.emitValueChange(this.value);
 		})
+		return this;
 	}
 
 	getElement(): HTMLInputElement | null {
@@ -65,7 +66,7 @@ export default class InputControl {
 		return true;
 	}
 
-	getValue(): string {
+	getValue(): string  | Array<{key: number; value: string}>{
 		// this.emitValueChange(this.value);
 		return this.value;
 	}

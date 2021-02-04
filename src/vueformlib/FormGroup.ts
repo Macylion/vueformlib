@@ -33,8 +33,8 @@ export default class FormGroup {
 		return this.inputControls[key];
 	}
 
-	getAllValues(): { [key: string]: string } {
-		const values: { [key: string]: string } = {};
+	getAllValues(): { [key: string]: string  | Array<{key: number; value: string}>} {
+		const values: { [key: string]: string  | Array<{key: number; value: string}>} = {};
 		for (const key in this.inputControls)
 			if (Object.prototype.hasOwnProperty.call(this.inputControls, key))
 				values[key] = this.inputControls[key].getValue();
