@@ -2,6 +2,7 @@ import FormGroup from './FormGroup';
 import IValidator from './validators/IValidator';
 export default class InputControl {
 
+	private defaultValue: string;
 	private value: string;
 	private validators: Array<IValidator>;
 
@@ -12,6 +13,7 @@ export default class InputControl {
 	private eventTarget: FormGroup | null;
 
 	constructor(value: string, validators: Array<IValidator>){
+		this.defaultValue = value;
 		this.value = value;
 		this.validators = validators;
 		this.touched = false;
@@ -20,7 +22,14 @@ export default class InputControl {
 		this.eventTarget = null;
 	}
 
-	getPrent(): FormGroup | null {
+	reset() {
+		this.value = this.defaultValue;
+		this.touched = false;
+		this.isValid();
+		this.errorMessage = "";
+	}
+
+	getEventTarget(): FormGroup | null {
 		return this.eventTarget;
 	}
 
@@ -79,11 +88,14 @@ export default class InputControl {
 
 	blur() {
 		this.touched = true;
+		this.isValid();
 	}
 
 	setValue(value: string) {
 		this.value = value;
 		this.emitValueChange(this.value);
+		if(this.errorMessage.length > 0)
+			this.isValid();
 	}
 
 	emitValueChange(value: string) {

@@ -9,5 +9,5 @@ Vue.directive('formGroup', formGroup)
 Vue.directive('inputControl', inputControl)
 
 new Vue({
-  render: h => h(App),
+	render: h => h(App),
 }).$mount('#app')

@@ -4,8 +4,11 @@
 			<input type="text" v-inputControl="formGroup.get('name1')">
 			{{ formGroup.get('name1').getError() }}
 			<input type="text" v-inputControl="formGroup.get('name2')">
+			{{ formGroup.get('name2').getError() }}
 			<input type="text" v-inputControl="formGroup.get('name3')">
+			{{ formGroup.get('name3').getError() }}
 			<input type="text" v-inputControl="formGroup.get('name4')">
+			{{ formGroup.get('name4').getError() }}
 		</form>
 		<button @click="test()">test</button>
 		<button @click="test2()">test</button>
@@ -14,6 +17,7 @@
 		<button @click="testTouched()">Touched</button>
 		<button @click="testPristine()">Pristine</button>
 		<button @click="testFormValid()">FormValid</button>
+		<button @click="testReset()">Reset</button>
 	</div>
 </template>
 
@@ -51,7 +55,7 @@ export default {
 	data() {
 		return {
 			formGroup: new FormGroup({
-				name1: new InputControl('', [
+				name1: new InputControl('mail', [
 					new EmailValidator('Email jest zly'),
 				]),
 				name2: new InputControl('', [
@@ -59,8 +63,8 @@ export default {
 					new MinValidator(4),
 					new RequiredValidator(),
 				]),
-				name3: new InputControl('', [
-					new NumberValidator(),
+				name3: new InputControl('2', [
+					new NumberValidator(''),
 				]),
 				name4: new InputControl('', [
 					new Is5Validator()
@@ -110,6 +114,13 @@ export default {
 		},
 		testFormValid() {
 			console.log('is form valid', this.formGroup.validate());
+		},
+		testReset() {
+			console.log('Reset')
+			console.log(1, this.formGroup.get('name1').reset());
+			console.log(2, this.formGroup.get('name2').reset());
+			console.log(3, this.formGroup.get('name3').reset());
+			console.log(4, this.formGroup.get('name4').reset());
 		}
 		
 	}
